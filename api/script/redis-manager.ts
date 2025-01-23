@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import * as express from "express";
 import * as q from "q";
-import * as redis from "redis";
+import Redis from "ioredis";
 
 import Promise = q.Promise;
 
@@ -72,11 +71,10 @@ class PromisifiedRedisClient {
   public select: (databaseNumber: number) => Promise<void> = null;
   public set: (key: string, value: string) => Promise<void> = null;
 
-  constructor(redisClient: redis.RedisClient) {
+  constructor(redisClient: Redis) {
     this.execBatch = (redisBatchClient: any) => {
       return q.ninvoke<any[]>(redisBatchClient, "exec");
     };
-
     for (const functionName in this) {
       if (this.hasOwnProperty(functionName) && (<any>this)[functionName] === null) {
         const originalFunction = (<any>redisClient)[functionName];
@@ -91,25 +89,16 @@ export class RedisManager {
   private static DEFAULT_EXPIRY: number = 3600; // one hour, specified in seconds
   private static METRICS_DB: number = 1;
 
-  private _opsClient: redis.RedisClient;
+  private _opsClient: Redis;
   private _promisifiedOpsClient: PromisifiedRedisClient;
-  private _metricsClient: redis.RedisClient;
+  private _metricsClient: Redis;
   private _promisifiedMetricsClient: PromisifiedRedisClient;
   private _setupMetricsClientPromise: Promise<void>;
 
   constructor() {
     if (process.env.REDIS_HOST && process.env.REDIS_PORT) {
-      const redisConfig = {
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT,
-        auth_pass: process.env.REDIS_KEY,
-        tls: {
-          // Note: Node defaults CA's to those trusted by Mozilla
-          rejectUnauthorized: true,
-        },
-      };
-      this._opsClient = redis.createClient(redisConfig);
-      this._metricsClient = redis.createClient(redisConfig);
+      this._opsClient = new Redis();
+      this._metricsClient = new Redis();
       this._opsClient.on("error", (err: Error) => {
         console.error(err);
       });
@@ -122,7 +111,10 @@ export class RedisManager {
       this._promisifiedMetricsClient = new PromisifiedRedisClient(this._metricsClient);
       this._setupMetricsClientPromise = this._promisifiedMetricsClient
         .select(RedisManager.METRICS_DB)
-        .then(() => this._promisifiedMetricsClient.set("health", "health"));
+        .then(() => this._promisifiedMetricsClient.set("health", "health"))
+        .catch((err) => {
+          console.error(err);
+        });
     } else {
       console.warn("No REDIS_HOST or REDIS_PORT environment variable configured.");
     }
@@ -225,7 +217,9 @@ export class RedisManager {
     }
 
     return this._setupMetricsClientPromise
-      .then(() => this._promisifiedMetricsClient.hgetall(Utilities.getDeploymentKeyLabelsHash(deploymentKey)))
+      .then(() => {
+        return this._promisifiedMetricsClient.hgetall(Utilities.getDeploymentKeyLabelsHash(deploymentKey));
+      })
       .then((metrics) => {
         // Redis returns numerical values as strings, handle parsing here.
         if (metrics) {
@@ -247,7 +241,7 @@ export class RedisManager {
 
     return this._setupMetricsClientPromise
       .then(() => {
-        const batchClient: any = (<any>this._metricsClient).batch();
+        const batchClient: any = (<any>this._metricsClient).pipeline();
         const currentDeploymentKeyLabelsHash: string = Utilities.getDeploymentKeyLabelsHash(currentDeploymentKey);
         const currentLabelActiveField: string = Utilities.getLabelActiveCountField(currentLabel);
         const currentLabelDeploymentSucceededField: string = Utilities.getLabelStatusField(currentLabel, DEPLOYMENT_SUCCEEDED);
@@ -314,7 +308,7 @@ export class RedisManager {
 
     return this._setupMetricsClientPromise
       .then(() => {
-        const batchClient: any = (<any>this._metricsClient).batch();
+        const batchClient: any = (<any>this._metricsClient).pipeline();
         const deploymentKeyLabelsHash: string = Utilities.getDeploymentKeyLabelsHash(deploymentKey);
         const deploymentKeyClientsHash: string = Utilities.getDeploymentKeyClientsHash(deploymentKey);
         const toLabelActiveField: string = Utilities.getLabelActiveCountField(toLabel);
