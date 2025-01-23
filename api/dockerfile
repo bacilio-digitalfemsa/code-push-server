@@ -1,0 +1,35 @@
+# Usa una imagen base de Node.js
+FROM node:18
+
+# Establece las variables de entorno TEMP y TMPDIR
+ENV TEMP=/tmp
+ENV TMPDIR=/tmp
+
+# Instala Redis
+RUN apt-get update && apt-get install -y redis-server
+
+# Establece el directorio de trabajo en el contenedor
+WORKDIR /usr/src/app
+
+# Clona el repositorio
+RUN git clone https://github.com/bacilio-digitalfemsa/code-push-server.git .
+
+WORKDIR /usr/src/app/api
+
+# Copia el archivo .env al contenedor
+COPY .env .env
+
+# Instala las dependencias
+RUN yarn install
+
+# Construye el proyecto
+RUN yarn build
+
+# Expone el puerto en el que la aplicación se ejecutará
+EXPOSE 3000
+
+# Expone el puerto de Redis
+EXPOSE 6379
+
+# Comando para iniciar Redis y la aplicación
+CMD service redis-server start && yarn start:env
