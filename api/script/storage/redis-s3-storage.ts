@@ -14,7 +14,7 @@ import clone = storage.clone;
 import Promise = q.Promise;
 import { isPrototypePollutionKey } from "./storage";
 import path = require("path");
-import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, ObjectCannedACL, PutObjectCommand, PutObjectCommandInput, S3Client } from "@aws-sdk/client-s3";
 
 function merge(original: any, updates: any): void {
   for (const property in updates) {
@@ -532,7 +532,8 @@ export class RedisS3Storage implements storage.Storage {
   }
 
   public addBlob(blobId: string, stream: stream.Readable, streamLength: number): Promise<string> {
-    const params = {
+    const params: PutObjectCommandInput = {
+      ACL: ObjectCannedACL.public_read,
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: blobId,
       Body: stream,
