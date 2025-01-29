@@ -1,0 +1,575 @@
+{
+  "info": {
+    "name": "API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "isAuthenticated",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/authenticated",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["authenticated"]
+        }
+      }
+    },
+    {
+      "name": "addAccessKey",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/accessKeys/",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["accessKeys"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"createdBy\": \"{{hostname}}\", \"friendlyName\": \"{{friendlyName}}\", \"ttl\": {{ttl}}}"
+        }
+      }
+    },
+    {
+      "name": "getAccessKey",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/accessKeys/{{accessKeyName}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["accessKeys", "{{accessKeyName}}"]
+        }
+      }
+    },
+    {
+      "name": "getAccessKeys",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/accessKeys",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["accessKeys"]
+        }
+      }
+    },
+    {
+      "name": "getSessions",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/accessKeys",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["accessKeys"]
+        }
+      }
+    },
+    {
+      "name": "patchAccessKey",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/accessKeys/{{oldName}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["accessKeys", "{{oldName}}"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"friendlyName\": \"{{newName}}\", \"ttl\": {{ttl}}}"
+        }
+      }
+    },
+    {
+      "name": "removeAccessKey",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/accessKeys/{{name}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["accessKeys", "{{name}}"]
+        }
+      }
+    },
+    {
+      "name": "removeSession",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/sessions/{{machineName}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["sessions", "{{machineName}}"]
+        }
+      }
+    },
+    {
+      "name": "getAccountInfo",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/account",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["account"]
+        }
+      }
+    },
+    {
+      "name": "getApps",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps"]
+        }
+      }
+    },
+    {
+      "name": "getApp",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}"]
+        }
+      }
+    },
+    {
+      "name": "addApp",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"{{appName}}\"}"
+        }
+      }
+    },
+    {
+      "name": "removeApp",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}"]
+        }
+      }
+    },
+    {
+      "name": "renameApp",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{oldAppName}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{oldAppName}}"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"{{newAppName}}\"}"
+        }
+      }
+    },
+    {
+      "name": "transferApp",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/transfer/{{email}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "transfer", "{{email}}"]
+        }
+      }
+    },
+    {
+      "name": "getCollaborators",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/collaborators",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "collaborators"]
+        }
+      }
+    },
+    {
+      "name": "addCollaborator",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/collaborators/{{email}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "collaborators", "{{email}}"]
+        }
+      }
+    },
+    {
+      "name": "removeCollaborator",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/collaborators/{{email}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "collaborators", "{{email}}"]
+        }
+      }
+    },
+    {
+      "name": "addDeployment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/deployments/",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "deployments"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"{{deploymentName}}\", \"key\": \"{{deploymentKey}}\"}"
+        }
+      }
+    },
+    {
+      "name": "clearDeploymentHistory",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/deployments/{{deploymentName}}/history",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "deployments", "{{deploymentName}}", "history"]
+        }
+      }
+    },
+    {
+      "name": "getDeployments",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/deployments/",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "deployments"]
+        }
+      }
+    },
+    {
+      "name": "getDeployment",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/deployments/{{deploymentName}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "deployments", "{{deploymentName}}"]
+        }
+      }
+    },
+    {
+      "name": "renameDeployment",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/deployments/{{oldDeploymentName}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "deployments", "{{oldDeploymentName}}"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"{{newDeploymentName}}\"}"
+        }
+      }
+    },
+    {
+      "name": "removeDeployment",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/deployments/{{deploymentName}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "deployments", "{{deploymentName}}"]
+        }
+      }
+    },
+    {
+      "name": "getDeploymentMetrics",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/deployments/{{deploymentName}}/metrics",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "deployments", "{{deploymentName}}", "metrics"]
+        }
+      }
+    },
+    {
+      "name": "getDeploymentHistory",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/deployments/{{deploymentName}}/history",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "deployments", "{{deploymentName}}", "history"]
+        }
+      }
+    },
+    {
+      "name": "release",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/deployments/{{deploymentName}}/release",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "deployments", "{{deploymentName}}", "release"]
+        },
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "package",
+              "type": "file",
+              "src": "{{filePath}}"
+            },
+            {
+              "key": "packageInfo",
+              "type": "text",
+              "value": "{\"appVersion\": \"{{targetBinaryVersion}}\", \"updateMetadata\": \"{{updateMetadata}}\"}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "patchRelease",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/deployments/{{deploymentName}}/release",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "deployments", "{{deploymentName}}", "release"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"packageInfo\": {\"label\": \"{{label}}\", \"updateMetadata\": \"{{updateMetadata}}\"}}"
+        }
+      }
+    },
+    {
+      "name": "promote",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/deployments/{{sourceDeploymentName}}/promote/{{destinationDeploymentName}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "deployments", "{{sourceDeploymentName}}", "promote", "{{destinationDeploymentName}}"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"packageInfo\": \"{{updateMetadata}}\"}"
+        }
+      }
+    },
+    {
+      "name": "rollback",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{SERVER_URL}}/apps/{{appName}}/deployments/{{deploymentName}}/rollback/{{targetRelease}}",
+          "host": ["{{SERVER_URL}}"],
+          "path": ["apps", "{{appName}}", "deployments", "{{deploymentName}}", "rollback", "{{targetRelease}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "SERVER_URL",
+      "value": "http://ec2-3-86-210-159.compute-1.amazonaws.com:3000"
+    },
+    {
+      "key": "accessKey",
+      "value": ""
+    }
+  ]
+}
